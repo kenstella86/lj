@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林骏老师 · 离火运下的空间智慧</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23B8860B'/%3E%3Cpath d='M32 10c4 10 14 14 14 24a14 14 0 0 1-28 0c0-7 5-11 9-16 1 5 3 7 5 7-2-6 0-11 0-15z' fill='%23FBF7F0'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ================= 设计 token ================= */
+  :root {
+    --bg: #FBF7F0;            /* 宣纸底色 */
+    --ink: #4A3525;           /* 深褐（主文） */
+    --sub: #7A6052;           /* 浅褐（副文） */
+    --gold: #B8860B;          /* 铜金（强调） */
+    --line: #E7DCCB;          /* 分隔线 */
+    --card: #FFFFFF;
+    --shadow: 0 10px 30px rgba(74, 53, 37, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: 840px; margin: 0 auto; padding: 0 22px; }
+
+  /* ================= 页头 ================= */
+  .hero { padding: 72px 0 40px; text-align: center; }
+  .hero .kicker {
+    display: inline-block; color: var(--gold); font-size: 0.92rem;
+    letter-spacing: 0.35em; font-weight: 600; margin-bottom: 18px;
+  }
+  .hero h1 { font-size: 1.9rem; font-weight: 700; line-height: 1.45; letter-spacing: 0.06em; }
+  .hero .lead { margin-top: 16px; color: var(--sub); font-size: 1rem; line-height: 1.9; }
+  .hero .rule { width: 56px; height: 3px; background: var(--gold); margin: 26px auto 0; border-radius: 2px; }
+
+  /* ================= 板块 ================= */
+  section.block { padding: 46px 0 8px; }
+  .block + .block { border-top: 1px solid var(--line); margin-top: 46px; padding-top: 52px; }
+
+  .sec-kicker { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.28em; font-weight: 600; margin-bottom: 10px; }
+  .sec-title { font-size: 1.42rem; font-weight: 700; line-height: 1.5; letter-spacing: 0.04em; margin-bottom: 18px; }
+
+  .sec-body p { font-size: 1rem; color: var(--sub); margin-bottom: 16px; }
+  .sec-body p:last-child { margin-bottom: 0; }
+
+  /* 小要点（第3板块） */
+  .points { margin: 6px 0 20px; }
+  .point { margin-bottom: 18px; }
+  .point .pt-title { font-weight: 700; color: var(--ink); font-size: 1.02rem; margin-bottom: 4px; }
+  .point p { margin-bottom: 0; }
+  .point-sum { border-left: 3px solid var(--gold); padding-left: 14px; color: var(--ink); font-weight: 600; }
+
+  /* ================= 图片 ================= */
+  .media { margin-top: 26px; }
+  .media figure { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); background: var(--card); }
+  .media img {
+    width: 100%; height: auto; display: block;
+    aspect-ratio: 16 / 9; object-fit: cover;
+  }
+  .media.single { max-width: 620px; margin-left: auto; margin-right: auto; }
+  .media figcaption {
+    padding: 12px 16px; font-size: 0.82rem; color: var(--sub);
+    background: var(--card); border-top: 1px solid var(--line); letter-spacing: 0.05em;
+  }
+
+  /* 双图（办公 / 居家） */
+  .duo { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .duo figure { border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); background: var(--card); }
+  .duo img { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: cover; }
+  .duo figcaption { padding: 10px 14px; font-size: 0.82rem; color: var(--sub); background: var(--card); border-top: 1px solid var(--line); text-align: center; }
+
+  /* ================= 页脚 ================= */
+  footer { margin-top: 60px; padding: 40px 0 110px; text-align: center; border-top: 1px solid var(--line); }
+  footer .motto { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.12em; color: var(--ink); }
+  footer .foot-note { margin-top: 14px; font-size: 0.78rem; color: #A29483; line-height: 1.8; max-width: 560px; margin-left: auto; margin-right: auto; }
+
+  /* ================= 悬浮 AI 对话（前端演示） ================= */
+  .ai-chat-btn {
+    position: fixed; bottom: 22px; right: 22px; width: 58px; height: 58px;
+    border-radius: 50%; background: var(--ink); color: #F3E8D2; border: none;
+    box-shadow: 0 6px 20px rgba(74, 53, 37, 0.35); cursor: pointer; z-index: 3000;
+    display: grid; place-items: center; transition: transform .25s ease, background .25s ease;
+  }
+  .ai-chat-btn:hover { transform: scale(1.08); background: var(--gold); }
+  .ai-chat-btn svg { width: 26px; height: 26px; }
+
+  .ai-chat-window {
+    position: fixed; bottom: 94px; right: 20px; width: min(360px, calc(100vw - 40px)); height: 480px;
+    background: var(--bg); border-radius: 14px; box-shadow: 0 16px 48px rgba(74, 53, 37, 0.18);
+    display: none; flex-direction: column; z-index: 3000; overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .ai-chat-window.open { display: flex; }
+  .ai-chat-header {
+    background: var(--ink); color: #F3E8D2; padding: 14px 18px;
+    font-weight: 600; display: flex; justify-content: space-between; align-items: center; font-size: 0.98rem;
+  }
+  .ai-chat-header button { background: none; border: none; color: #F3E8D2; cursor: pointer; font-size: 22px; line-height: 1; font-family: inherit; }
+  .ai-chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #F8F4EC; }
+  .ai-msg { max-width: 86%; padding: 11px 15px; border-radius: 10px; font-size: 0.92rem; line-height: 1.7; word-wrap: break-word; }
+  .ai-msg.bot { background: #fff; border: 1px solid var(--line); align-self: flex-start; border-bottom-left-radius: 3px; color: var(--ink); }
+  .ai-msg.user { background: var(--gold); color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
+  .ai-chat-input-area { display: flex; padding: 12px; border-top: 1px solid var(--line); background: #fff; gap: 8px; }
+  .ai-chat-input-area input {
+    flex: 1; padding: 10px 14px; border: 1px solid var(--line); border-radius: 20px; outline: none;
+    font-size: 16px; font-family: inherit; color: var(--ink); background: #F8F4EC;
+  }
+  .ai-chat-input-area input:focus { border-color: var(--gold); background: #fff; }
+  .ai-chat-input-area button { background: var(--ink); color: #F3E8D2; border: none; border-radius: 20px; padding: 10px 18px; cursor: pointer; font-weight: 600; font-family: inherit; }
+
+  /* ================= 响应式（桌面） ================= */
+  @media (min-width: 768px) {
+    .hero { padding: 96px 0 56px; }
+    .hero h1 { font-size: 2.5rem; }
+    .hero .lead { font-size: 1.08rem; }
+    section.block { padding: 56px 0 12px; }
+    .sec-title { font-size: 1.9rem; }
+    .sec-body p { font-size: 1.04rem; }
+    .duo { grid-template-columns: 1fr 1fr; }
+    .media.single { max-width: 680px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== 页头 ===== -->
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">林 骏 老 师</div>
+    <h1>离火运下，<br>空间与人的二十年</h1>
+    <p class="lead">以传统空间文化为视角，观察这个正在变化的时代——<br>分享一种看待变化、安顿身心的传统智慧。</p>
+    <div class="rule"></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ===== 板块 1：三元九运 ===== -->
+  <section class="block" id="yuan">
+    <div class="sec-kicker">三 元 九 运</div>
+    <h2 class="sec-title">一百八十年里的二十年光明</h2>
+    <div class="sec-body">
+      <p>三元九运，是古人观天象、察时序沉淀下的周期智慧。一百八十年一轮回，每二十年为一运。</p>
+      <p>自2024年立春起，九紫右弼星当令，对应八卦离卦，五行属火。直至2043年立春，整整二十载。离卦卦象外实内虚，《周易》释离，丽也——万物依附光明而生。</p>
+      <p>这道火，不是焚尽一切的烈火，而是科技之火、文明之火、心灵觉醒之火。</p>
+    </div>
+    <div class="media single">
+      <figure>
+        <img src="img-1.jpg" alt="三元九运 · 光影视觉图" loading="lazy">
+        <figcaption>三元九运 · 光影视觉</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 板块 2：林骏老师解读 ===== -->
+  <section class="block" id="bian">
+    <div class="sec-kicker">林 骏 老 师</div>
+    <h2 class="sec-title">离火运下，什么变了？</h2>
+    <div class="sec-body">
+      <p>前二十年是土运，大家买地买房，重的是看得见的东西。</p>
+      <p>现在进入火运，规则翻过来了。数字、思想、审美，成了新的红利。</p>
+      <p>不是实体没用了，是光靠堆东西不够了。能接住时代的人，靠的是无形的本事。</p>
+      <p>还有个变化：大家开始向内求了。物质够了，自然会问——我要什么？</p>
+      <p>所以国学热、养生热，不是突然火的，是人心真的需要了。</p>
+    </div>
+    <div class="media single">
+      <figure>
+        <img src="img-2.jpg" alt="从土到火 · 视觉图" loading="lazy">
+        <figcaption>从土运到火运 · 由实到虚</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 板块 3：空间应用 ===== -->
+  <section class="block" id="kongjian">
+    <div class="sec-kicker">林 骏 老 师</div>
+    <h2 class="sec-title">离火运下，空间该怎么调？</h2>
+    <div class="points">
+      <div class="point">
+        <div class="pt-title">办公空间 · 从摆排场到养状态</div>
+        <p>以前老板办公室越大越靠里越好。现在讲究人气与通透，采光好、动线顺，人待着舒展，决策才清明。</p>
+      </div>
+      <div class="point">
+        <div class="pt-title">居家空间 · 从够住到养心</div>
+        <p>以前家是睡觉的地方。现在是养心的地方，光线要足、角落要通透，留点空，人才喘得过气。</p>
+      </div>
+      <div class="point">
+        <div class="pt-title">个人位置 · 从坐哪都行到位置合不合你</div>
+        <p>你坐的位置不是随便的事。背后有靠、光线舒服、不被打扰，待着舒服，才能出活。</p>
+      </div>
+      <p class="point-sum">空间调整，不是改运。是让你待的地方，更合时代节奏，也更合你自己的状态。</p>
+    </div>
+    <div class="media">
+      <div class="duo">
+        <figure>
+          <img src="img-3a.jpg" alt="办公空间布局示意" loading="lazy">
+          <figcaption>办公空间</figcaption>
+        </figure>
+        <figure>
+          <img src="img-3b.jpg" alt="居家空间布局示意" loading="lazy">
+          <figcaption>居家空间</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 板块 4：老师介绍 ===== -->
+  <section class="block" id="guanyu">
+    <div class="sec-kicker">林 骏 老 师</div>
+    <h2 class="sec-title">三十年，只做一件事</h2>
+    <div class="sec-body">
+      <p>传统文化研究者，研习空间文化近三十年。</p>
+      <p>师从港台资深学者，研习周易与东方生活哲学。</p>
+      <p>以传统智慧观察时代，以空间文化优化生活。</p>
+      <p>专注家居与办公空间的布局优化。</p>
+      <p>分享一种看待变化、安顿身心的传统视角。</p>
+    </div>
+    <div class="media single">
+      <figure>
+        <img src="img-4.jpg" alt="木桌、书与茶具 · 静物图" loading="lazy">
+        <figcaption>案前一杯茶 · 静观空间之变</figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== 页脚 ===== -->
+<footer>
+  <div class="wrap">
+    <p class="motto">守本心 · 修内功 · 以心驭火，向光而行</p>
+    <p class="foot-note">本页面内容为传统文化与空间环境的观察分享，仅供参考，不构成任何投资、健康或人生决策建议。如有个性化空间调整需求，请结合实际理性判断。</p>
+  </div>
+</footer>
+
+<!-- ===== 悬浮 AI 对话（前端演示） ===== -->
+<button class="ai-chat-btn" id="aiChatBtn" onclick="toggleAiChat()" aria-label="向林骏老师提问">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<div class="ai-chat-window" id="aiChatWindow">
+  <div class="ai-chat-header">
+    <span>林骏老师 · 即时问答</span>
+    <button onclick="toggleAiChat()" aria-label="关闭">&times;</button>
+  </div>
+  <div class="ai-chat-messages" id="aiChatMessages">
+    <div class="ai-msg bot">你好，我是林骏。关于离火运、空间布局或居家办公的状态困扰，都可以问我（当前为页面演示版）。</div>
+  </div>
+  <div class="ai-chat-input-area">
+    <input id="aiChatInput" placeholder="例如：办公室位置怎么调…" onkeydown="if(event.key==='Enter') sendAiMessage()">
+    <button onclick="sendAiMessage()">发送</button>
+  </div>
+</div>
+
+<script>
+  function toggleAiChat() {
+    var win = document.getElementById('aiChatWindow');
+    win.classList.toggle('open');
+  }
+
+  var REPLY_RULES = [
+    { k: ['你是谁', '介绍', '林骏', '老师是谁'], v: '我是林骏，研习空间文化近三十年，师从港台资深学者，研习周易与东方生活哲学。我专注家居与办公空间的布局优化，分享一种看待变化、安顿身心的传统视角。' },
+    { k: ['你好', '您好', '在吗', 'hi', 'hello', '嗨'], v: '你好。关于离火运、空间布局，或者你正在为办公、居家环境感到困扰的问题，都可以问我。' },
+    { k: ['办公室', '办公', '工位', '老板'], v: '办公位置的核心是“状态优先”：采光要好、背后有靠、动线少被打扰。建议先拍一张你工位的照片，从光线、动线和视野三个角度看看怎么调。' },
+    { k: ['居家', '家里', '客厅', '卧室'], v: '居家空间先做“留白”：光线要足、角落别堆满。你希望回家是放松还是高效，决定了布局的重心。' },
+    { k: ['火运', '离火', '三元', '九运', '大运'], v: '离火运这二十年，重心从实体转向无形——人的感受、审美、精神需求。空间也从“够大”转向“合你”。' },
+    { k: ['风水', '运势', '改运', '算命'], v: '我不做命理预测，也不谈改运。我分享的是传统空间文化视角：位置怎么摆，能让你待着更舒服、状态更稳。' },
+    { k: ['位置', '怎么调', '布局'], v: '空间调整，不是改运。是让你待的地方更合时代节奏，也更合你自己的状态。你可以发一张所在空间的照片，我结合具体布局给你参考。' },
+    { k: ['书', '茶', '静', '心'], v: '心定则空间定。一杯茶、一盏光、一个背后有靠的位置，都是安顿自己的方式。' },
+    { k: ['收费', '费用', '联系', '电话', '微信', '预约'], v: '具体服务与咨询方式，建议直接联系林骏老师本人沟通。你也可以先说说你的空间情况，我帮你看看方向。' }
+  ];
+  var FALLBACK = '欢迎你发一张所在空间的照片，我结合具体布局给你参考。也可以换个问法，例如“办公室位置怎么调”或“离火运怎么看”。';
+
+  function reply(text) {
+    for (var i = 0; i < REPLY_RULES.length; i++) {
+      for (var j = 0; j < REPLY_RULES[i].k.length; j++) {
+        if (text.indexOf(REPLY_RULES[i].k[j]) !== -1) return REPLY_RULES[i].v;
+      }
+    }
+    return FALLBACK;
+  }
+
+  function addAiMsg(text, role) {
+    var messages = document.getElementById('aiChatMessages');
+    var div = document.createElement('div');
+    div.className = 'ai-msg ' + role;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  function sendAiMessage() {
+    var input = document.getElementById('aiChatInput');
+    var text = input.value.trim();
+    if (!text) return;
+    addAiMsg(text, 'user');
+    input.value = '';
+    var wait = addAiMsg('林骏老师正在思考…', 'bot');
+
+    var timer = setTimeout(function () {
+      wait.textContent = reply(text);
+    }, 10000);
+
+    fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: text })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      clearTimeout(timer);
+      if (data && data.answer) {
+        wait.textContent = data.answer;
+      } else {
+        wait.textContent = reply(text);
+      }
+    })
+    .catch(function () {
+      clearTimeout(timer);
+      wait.textContent = reply(text);
+    });
+  }
+</script>
+</body>
+</html>
