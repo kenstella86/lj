@@ -42,6 +42,40 @@
   .hero .lead { margin-top: 16px; color: var(--sub); font-size: 1rem; line-height: 1.9; }
   .hero .rule { width: 56px; height: 3px; background: var(--gold); margin: 26px auto 0; border-radius: 2px; }
 
+  /* ================= AI 问答卡片（首屏醒目） ================= */
+  .ai-hero {
+    max-width: 680px; margin: 32px auto 0; text-align: left;
+    background: var(--card); border-radius: 16px; box-shadow: var(--shadow);
+    border: 1px solid var(--line); overflow: hidden;
+  }
+  .ai-hero-head {
+    display: flex; align-items: center; gap: 14px; padding: 18px 24px;
+    background: linear-gradient(135deg, #FBF7F0 0%, #F5EDE0 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .ai-avatar {
+    width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #B8860B, #D4A93B);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.1rem; font-weight: 700;
+  }
+  .ai-name { font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+  .ai-status { font-size: 0.78rem; color: var(--gold); margin-top: 2px; }
+  .ai-body { padding: 18px 24px 22px; }
+  .ai-question {
+    font-size: 0.92rem; color: var(--sub); line-height: 1.8; margin-bottom: 14px;
+  }
+  .ai-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ai-chip {
+    padding: 8px 15px; border-radius: 20px; font-size: 0.83rem;
+    background: var(--bg); border: 1px solid var(--line); color: var(--ink);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .ai-chip:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .ai-hint {
+    margin-top: 12px; font-size: 0.76rem; color: #A29483; text-align: center;
+  }
+
   /* ================= 板块 ================= */
   section.block { padding: 46px 0 8px; }
   .block + .block { border-top: 1px solid var(--line); margin-top: 46px; padding-top: 52px; }
@@ -101,6 +135,28 @@
     <h1>离火运下，<br>空间与人的二十年</h1>
     <p class="lead">以传统空间文化为视角，观察这个正在变化的时代——<br>分享一种看待变化、安顿身心的传统智慧。</p>
     <div class="rule"></div>
+
+    <!-- AI 问答卡片 -->
+    <div class="ai-hero">
+      <div class="ai-hero-head">
+        <div class="ai-avatar">骏</div>
+        <div>
+          <div class="ai-name">林小骏</div>
+          <div class="ai-status">林骏老师的助手 · 在线为你解答</div>
+        </div>
+      </div>
+      <div class="ai-body">
+        <p class="ai-question">关于家居布局、办公空间、流年运势，有什么想问的？点下面的问题快速开始，或直接跟我聊。</p>
+        <div class="ai-chips">
+          <div class="ai-chip" data-q="厨房在西北好不好？">厨房在西北好不好？</div>
+          <div class="ai-chip" data-q="大门正对阳台怎么化解？">大门正对阳台</div>
+          <div class="ai-chip" data-q="主卧在哪个方位最好？">主卧方位怎么选</div>
+          <div class="ai-chip" data-q="2027年我的生肖运势如何？">明年生肖运势</div>
+          <div class="ai-chip" data-q="老板办公室座位怎么摆？">老板座位摆放</div>
+        </div>
+        <p class="ai-hint">点击右下角图标或上方问题，即可开始对话</p>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -211,8 +267,31 @@
 
 <chat-bubble-snippet
   api-url="https://36078a03-f89a-4ace-959a-8af7d0811596.search.ai.cloudflare.com/"
-  placeholder="向林骏老师提问...">
+  placeholder="向林小骏提问...">
 </chat-bubble-snippet>
+
+<script>
+// 快捷问题：点击后尝试打开聊天气泡并发送问题
+document.querySelectorAll('.ai-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const q = chip.dataset.q;
+    const bubble = document.querySelector('chat-bubble-snippet');
+    if (!bubble) return;
+    try {
+      // 尝试通过 shadow DOM 找到并点击气泡按钮，打开聊天窗口
+      const shadow = bubble.shadowRoot;
+      if (shadow) {
+        const btn = shadow.querySelector('button, [role="button"], .chat-bubble-button, [class*="button"]');
+        if (btn) btn.click();
+      }
+    } catch(e) {}
+    // 把问题存到 sessionStorage，等聊天窗口打开后自动填入
+    sessionStorage.setItem('ai-question', q);
+    // 滚动到右下角气泡位置
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  });
+});
+</script>
 
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "58d484b8ee7a4bafa67719a59b4a4b3c"}'></script>
