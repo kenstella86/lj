@@ -46,13 +46,13 @@
   .hero-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: url('img-4.jpg') center / cover no-repeat;
+    background: url('img-4.jpg') center bottom / cover no-repeat;
     opacity: 0.85;
   }
   .hero-overlay {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(to bottom, rgba(251,247,240,0.1) 0%, rgba(251,247,240,0.3) 100%);
+    background: linear-gradient(to bottom, rgba(251,247,240,0.4) 0%, rgba(251,247,240,0.1) 50%, rgba(251,247,240,0.3) 100%);
   }
   .hero-content {
     position: relative;
@@ -242,6 +242,16 @@
     .gallery-grid { gap: 28px; }
   }
 
+  /* 手机端背景图优化 */
+  @media (max-width: 767px) {
+    .hero-bg {
+      background-position: center bottom;
+      opacity: 0.7;
+    }
+    .hero-title { font-size: 1.8rem; }
+    .hero-author { font-size: 0.85rem; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
   }
@@ -395,6 +405,32 @@
   api-url="https://36078a03-f89a-4ace-959a-8af7d0811596.search.ai.cloudflare.com/"
   placeholder="向林骏老师提问...">
 </chat-bubble-snippet>
+
+<script>
+// 快捷问题点击后，自动打开右下角聊天气泡
+document.querySelectorAll('.ai-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const q = chip.textContent.trim();
+    const bubble = document.querySelector('chat-bubble-snippet');
+    if (!bubble) return;
+    // 把问题存到 sessionStorage
+    sessionStorage.setItem('ai-question', q);
+    // 尝试通过 shadow DOM 找到并点击气泡按钮，打开聊天窗口
+    try {
+      const shadow = bubble.shadowRoot;
+      if (shadow) {
+        const clickables = shadow.querySelectorAll('button, [role="button"], [class*="button"], [class*="bubble"], [class*="chat"]');
+        for (const el of clickables) {
+          el.click();
+          break;
+        }
+      }
+    } catch(e) {}
+    // 滚动到右下角气泡位置
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  });
+});
+</script>
 
 <!-- Cloudflare Web Analytics -->
 <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "58d484b8ee7a4bafa67719a59b4a4b3c"}'></script>
