@@ -408,7 +408,7 @@
 </chat-bubble-snippet>
 
 <script>
-// 快捷问题点击后，自动打开右下角聊天气泡
+// 快捷问题点击后，自动打开右下角聊天气泡，并填入问题
 document.querySelectorAll('.ai-chip').forEach(chip => {
   chip.addEventListener('click', () => {
     const q = chip.dataset.q || chip.textContent.trim();
@@ -426,6 +426,24 @@ document.querySelectorAll('.ai-chip').forEach(chip => {
         if (btn) btn.click();
       }
     } catch(e) {}
+    
+    // 等300毫秒，让聊天窗口完全打开，然后把问题填到输入框里
+    setTimeout(() => {
+      try {
+        const shadow = bubble.shadowRoot;
+        if (shadow) {
+          // 找输入框（input 或 textarea）
+          const input = shadow.querySelector('input[type="text"], input:not([type]), textarea');
+          if (input) {
+            // 用原生 setter 设置值，触发框架状态更新
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+            nativeInputValueSetter.call(input, q);
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+            input.focus();
+          }
+        }
+      } catch(e) {}
+    }, 300);
     
     // 滚动到右下角气泡位置
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
