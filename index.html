@@ -242,12 +242,13 @@
     .gallery-grid { gap: 28px; }
   }
 
-  /* 手机端背景图优化 */
+  /* 手机端背景图优化：不用背景图，直接渐变背景，更干净 */
   @media (max-width: 767px) {
     .hero-bg {
-      background-position: center bottom;
-      opacity: 0.7;
+      background: linear-gradient(180deg, #FBF7F0 0%, #F5EDE0 100%);
+      opacity: 1;
     }
+    .hero-overlay { display: none; }
     .hero-title { font-size: 1.8rem; }
     .hero-author { font-size: 0.85rem; }
   }
@@ -289,11 +290,11 @@
     <div class="ai-body">
       <p class="ai-question">关于家居布局、办公空间、流年运势，有什么想问的？点下面的问题快速开始，或直接跟我聊。</p>
       <div class="ai-chips">
-        <div class="ai-chip">厨房在西北好不好？</div>
-        <div class="ai-chip">大门正对阳台</div>
-        <div class="ai-chip">主卧方位怎么选</div>
-        <div class="ai-chip">明年生肖运势</div>
-        <div class="ai-chip">老板座位摆放</div>
+        <div class="ai-chip" data-q="厨房在西北好不好？">厨房在西北好不好？</div>
+        <div class="ai-chip" data-q="大门正对阳台怎么化解？">大门正对阳台</div>
+        <div class="ai-chip" data-q="主卧在哪个方位最好？">主卧方位怎么选</div>
+        <div class="ai-chip" data-q="2027年我的生肖运势如何？">明年生肖运势</div>
+        <div class="ai-chip" data-q="老板办公室座位怎么摆？">老板座位摆放</div>
       </div>
       <p class="ai-hint">点击右下角图标或上方问题，即可开始对话</p>
     </div>
@@ -410,22 +411,22 @@
 // 快捷问题点击后，自动打开右下角聊天气泡
 document.querySelectorAll('.ai-chip').forEach(chip => {
   chip.addEventListener('click', () => {
-    const q = chip.textContent.trim();
+    const q = chip.dataset.q || chip.textContent.trim();
     const bubble = document.querySelector('chat-bubble-snippet');
     if (!bubble) return;
+    
     // 把问题存到 sessionStorage
     sessionStorage.setItem('ai-question', q);
-    // 尝试通过 shadow DOM 找到并点击气泡按钮，打开聊天窗口
+    
+    // 通过 shadow DOM 找到并点击气泡按钮，打开聊天窗口
     try {
       const shadow = bubble.shadowRoot;
       if (shadow) {
-        const clickables = shadow.querySelectorAll('button, [role="button"], [class*="button"], [class*="bubble"], [class*="chat"]');
-        for (const el of clickables) {
-          el.click();
-          break;
-        }
+        const btn = shadow.querySelector('button, [role="button"], .chat-bubble-button, [class*="button"]');
+        if (btn) btn.click();
       }
     } catch(e) {}
+    
     // 滚动到右下角气泡位置
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   });
